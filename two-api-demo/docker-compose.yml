@@ -1,0 +1,24 @@
+services:
+  api2:
+    build: ./api2
+    container_name: api2
+    ports:
+      - "8002:8000"
+    networks:
+      - apinet
+
+  api1:
+    build: ./api1
+    container_name: api1
+    environment:
+      - API2_URL=http://api2:8000
+    ports:
+      - "8001:8000"
+    depends_on:
+      - api2
+    networks:
+      - apinet
+
+networks:
+  apinet:
+    driver: bridge
